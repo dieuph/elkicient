@@ -11,3 +11,4 @@ services:
       LOG_LEVEL: info
     ports:
       - 5044:5044
+      - 5045:5045
