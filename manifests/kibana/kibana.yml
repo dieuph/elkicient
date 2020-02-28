@@ -1,0 +1,4 @@
+server.name: kibana
+elasticsearch.url: http://85.214.125.128:9200
+elasticsearch.username: elastic
+elasticsearch.password: changeme
