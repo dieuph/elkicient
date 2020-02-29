@@ -2,12 +2,11 @@ version: '3'
 
 services:
   logstash:
-    image: logstash:6.5.2
+    image: ws/logstash:6.5.2
     container_name: logstash
-    command: bash -c "
-                      bin/logstash-plugin install logstash-filter-ip2location 
-                      && logstash
-                     "
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
       - ./logstash.yml:/usr/share/logstash/config/logstash.yml
