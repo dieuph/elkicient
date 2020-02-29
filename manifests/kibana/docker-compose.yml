@@ -3,9 +3,8 @@ version: '3'
 services:
   kibana:
     image: kibana:6.5.2
-    volumes:
-      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
     environment:
       - "LOGGING_QUIET=true"
+      - "ELASTICSEARCH_URL=http://85.214.125.128:9200"
     ports:
       - 5601:5601
