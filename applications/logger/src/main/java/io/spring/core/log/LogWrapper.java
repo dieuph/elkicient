@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.net.InetAddress;
+import java.net.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +20,6 @@ public class LogWrapper {
 	private String id;
 	private Level level;
 	private LogContext context;
-	private String hostName;
 	private String message;
 	private Object[] parameters;
 	private Throwable throwable;
@@ -36,11 +35,11 @@ public class LogWrapper {
 	
 	public static LogWrapper from(LogRequest request) {
 		LogWrapper wrapper = new LogWrapper();
-		
+    
 		try {
+      System.setProperty("hostName", InetAddress.getLocalHost().getHostName()); 
 			wrapper.setId(UUID.randomUUID().toString());
 			wrapper.setLevel(level(request.getLevel()));
-			wrapper.setHostName(InetAddress.getLocalHost().getHostName());
 			wrapper.setContext(context(request.getContext()));
 			wrapper.setMessage(request.getMessage());
 			
@@ -49,7 +48,7 @@ public class LogWrapper {
 			}
 			
 			wrapper.setLogger(LogFactory.forContext(context(request.getContext())));
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | UnknownHostException e) {
 			LogFactory.forContext(LogContext.PARSE)
 					  .error("Error parsing request data.");
 		}
