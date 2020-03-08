@@ -1,4 +1,4 @@
-FROM gradle:jdk-alpine
+FROM gradle:4.7.0-jdk8-alpine AS build
 
 WORKDIR /home/gradle/project
 
@@ -12,7 +12,7 @@ ENV GRADLE_USER_HOME /home/gradle/project
 
 COPY . /home/gradle/project
 
-RUN gradle build
+RUN gradle build --no-daemon 
 
 
 FROM java:jre-alpine
