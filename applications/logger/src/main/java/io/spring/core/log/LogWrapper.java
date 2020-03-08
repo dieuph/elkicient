@@ -40,7 +40,7 @@ public class LogWrapper {
 		try {
 			wrapper.setId(UUID.randomUUID().toString());
 			wrapper.setLevel(level(request.getLevel()));
-			wrapper.setHostName(InetAddress.getHostName());
+			wrapper.setHostName(InetAddress.getLocalHost().getHostName());
 			wrapper.setContext(context(request.getContext()));
 			wrapper.setMessage(request.getMessage());
 			
