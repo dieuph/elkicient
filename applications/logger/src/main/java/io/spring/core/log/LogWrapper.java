@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.net.InetAddress;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -18,6 +20,7 @@ public class LogWrapper {
 	private String id;
 	private Level level;
 	private LogContext context;
+	private String hostName;
 	private String message;
 	private Object[] parameters;
 	private Throwable throwable;
@@ -37,6 +40,7 @@ public class LogWrapper {
 		try {
 			wrapper.setId(UUID.randomUUID().toString());
 			wrapper.setLevel(level(request.getLevel()));
+			wrapper.setHostName(InetAddress.getHostName());
 			wrapper.setContext(context(request.getContext()));
 			wrapper.setMessage(request.getMessage());
 			
