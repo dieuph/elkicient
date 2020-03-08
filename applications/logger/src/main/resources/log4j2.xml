@@ -10,7 +10,7 @@
             fileName="./logs/spring-boot-logger-log4j2.log"
             filePattern="./logs/$${date:yyyy-MM}/spring-boot-logger-log4j2-%d{-dd-MMMM-yyyy}-%i.log.gz">
             <PatternLayout>
-                <pattern>${hostName} java %d{yyyy-MM-dd HH:mm:ss,SSS}{GMT} %p %t %c %M - %m%n</pattern>
+                <pattern>${hostName} %d{yyyy-MM-dd HH:mm:ss}{GMT} %logger{36} %M - %m%n</pattern>
             </PatternLayout>
             <Policies>
                 <!-- rollover on startup, daily and when the file reaches 
