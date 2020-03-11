@@ -11,13 +11,13 @@ import lombok.Data;
 public class LogRequest {
 	@NotBlank(message = "can't be empty")
 	private String level;
-
-	@NotBlank(message = "can't be empty")
-	private String context;
+ 
+  @NotBlank(message = "can't be empty")
+	private String hostName;
 
 	private String throwable;
 
-    @NotBlank(message = "can't be empty")
-    private String message;
+  @NotBlank(message = "can't be empty")
+  private String message;
     
 }

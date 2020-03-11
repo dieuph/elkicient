@@ -9,20 +9,20 @@ input {
 }
 
 filter {
-  mutate {
-    gsub => [
-              "message", "([\[])([A-Za-z]*)= .*([\]])", "[data anonymised]"
-            ]
-  }
   grok {
     match => { "message" => "%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:level} %{IPV4:serverIP} %{GREEDYDATA:messageDetail}" }
   }
   ip2location {
-    source => "serverIP"
-    use_memory_mapped => true
+    source => "serverIP    use_memory_mapped => true
   }
   geoip {
     source => "serverIP"
+  }
+  mutate {
+    gsub => [
+              "messageDetail", "([\[])([A-Za-z]*)= .*([\]])", "[data anonymised]",
+              "message", "([\[])([A-Za-z]*)= .*([\]])", "[data anonymised]"  
+            ]
   }
 }
 

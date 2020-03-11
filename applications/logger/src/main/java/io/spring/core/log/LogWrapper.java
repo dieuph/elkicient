@@ -19,6 +19,7 @@ import java.net.*;
 public class LogWrapper {
 	private String id;
 	private Level level;
+  private String hostName;
 	private LogContext context;
 	private String message;
 	private Object[] parameters;
@@ -37,18 +38,17 @@ public class LogWrapper {
 		LogWrapper wrapper = new LogWrapper();
     
 		try {
-      System.setProperty("hostName", InetAddress.getLocalHost().getHostName()); 
-			wrapper.setId(UUID.randomUUID().toString());
+      wrapper.setId(UUID.randomUUID().toString());
 			wrapper.setLevel(level(request.getLevel()));
-			wrapper.setContext(context(request.getContext()));
+      wrapper.setHostName(request.getHostName());
 			wrapper.setMessage(request.getMessage());
 			
 			if (null != request.getThrowable()) {
 				wrapper.setThrowable(((Throwable) Class.forName(request.getThrowable()).newInstance()));
 			}
 			
-			wrapper.setLogger(LogFactory.forContext(context(request.getContext())));
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | UnknownHostException e) {
+			wrapper.setLogger(LogFactory.forContext(context("Context")));
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			LogFactory.forContext(LogContext.PARSE)
 					  .error("Error parsing request data.");
 		}
@@ -58,9 +58,9 @@ public class LogWrapper {
 	
 	public void log() {
 		if (null != throwable) {
-			logger.log(level, message + throwable.getCause());
+			logger.log(level, hostName + " " + message + throwable.getCause());
 		} else {
-			logger.log(level, message);
+			logger.log(level, hostName + " " + message);
 		}
 	}
 }

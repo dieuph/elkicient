@@ -24,8 +24,8 @@ public class LogsApi {
 
     @PostMapping
     public ResponseEntity<?> writeLogs(@Valid @RequestBody LogRequest logRequest) {
-    	LogWrapper.from(logRequest).log();
-        return ResponseEntity.ok("Print log successfully");
+    	 LogWrapper.from(logRequest).log();
+       return ResponseEntity.ok("Print log successfully");
     }
 
 }
