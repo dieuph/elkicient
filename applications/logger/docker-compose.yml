@@ -1,16 +1,33 @@
 version: '3'
 services:
-  spring_boot_realworld_example_app:
-    image: allthethings/spring-boot-realworld-example-app
+  filebeat_1:
+    volumes:
+      - /user/filebeat_1/logs:/user/logs/
+    build:
+      context: ./filebeat/
+      dockerfile: Dockerfile
+    
+  elkicient_app_1:
+    volumes:
+      - /user/filebeat_1/logs:/home/gradle/project/logs
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports: 
-      - "8080:8080"
-    depends_on: 
-      - db
-
-  db:
-    image: mysql
-    environment:
-      - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
+      - "8081:8080"    
+  
+  filebeat_2:
+    volumes:
+      - /user/filebeat_2/logs:/user/logs
+    build:
+      context: ./filebeat/
+      dockerfile: Dockerfile
+      
+  elkicient_app_2:
+    volumes:
+      - /user/filebeat_2/logs:/home/gradle/project/logs
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports: 
-      - "3306:3306"
-
+      - "8082:8080"
