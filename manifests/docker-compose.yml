@@ -2,13 +2,21 @@ version: '3'
 
 services:
   filebeat_1:
+    hostname: filebeat_1
+    image: elkicient/filebeat:6.5.2
+    container_name: filebeat_1
     volumes:
       - /usr/filebeat_1/logs:/usr/logs/
     build:
       context: filebeat
       dockerfile: Dockerfile
+    links:
+      - logstash
       
   elkicient_app_1:
+    hostname: elkicient_app_1
+    image: elkicient/elkicient:1
+    container_name: elkicient_app_1
     volumes:
       - /usr/filebeat_1/logs:/home/gradle/project/logs
     build:
@@ -20,20 +28,28 @@ services:
       - "8081:8080"
   
   filebeat_2:
+    hostname: filebeat_2
+    image: elkicient/filebeat:6.5.2
+    container_name: filebeat_2
     volumes:
       - /usr/filebeat_2/logs:/usr/logs
     build:
       context: filebeat
       dockerfile: Dockerfile
+    links:
+      - logstash
       
   elkicient_app_2:
+    hostname: elkicient_app_2
+    image: elkicient/elkicient:1
+    container_name: elkicient_app_2
     volumes:
       - /usr/filebeat_2/logs:/home/gradle/project/logs
     build:
       context: applications
       dockerfile: Dockerfile
     environment:
-      - TEST_IP=10.122.125.123
+      - TEST_IP=10.124.85.75
     ports: 
       - "8082:8080"
       

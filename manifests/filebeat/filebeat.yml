@@ -9,4 +9,4 @@ tail_files: true
       
 # setup filebeat to send output to logstash
 output.logstash:
-  hosts: ["http://logstash:5044"]
+  hosts: ["logstash:5044"]
