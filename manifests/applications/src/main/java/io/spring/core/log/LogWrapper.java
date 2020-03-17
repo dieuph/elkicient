@@ -21,13 +21,11 @@ public class LogWrapper {
 	private String id;
 	private Level level;
 	private LogContext context;
+	private String hostName;
 	private String message;
 	private Object[] parameters;
 	private Throwable throwable;
 	private Logger logger;
- 
-  @Value("${jdbc.ip}")
-  private String ip;
 
 	private static LogContext context(String context) {
 		return LogContext.getContext(context.toUpperCase());
@@ -41,8 +39,9 @@ public class LogWrapper {
 		LogWrapper wrapper = new LogWrapper();
     
 		try {
-      wrapper.setId(UUID.randomUUID().toString());
+			wrapper.setId(UUID.randomUUID().toString());
 			wrapper.setLevel(level(request.getLevel()));
+			wrapper.setHostName(System.getenv("TEST_IP"));
 			wrapper.setMessage(request.getMessage());
 			
 			if (null != request.getThrowable()) {
@@ -60,14 +59,9 @@ public class LogWrapper {
 	
 	public void log() {
 		if (null != throwable) {
-			logger.log(level, this.getIp() + " " + message + throwable.getCause());
+			logger.log(level, this.getHostName() + " " + message + throwable.getCause());
 		} else {
-			logger.log(level, this.getIp() + " " + message);
+			logger.log(level, this.getHostName() + " " + message);
 		}
 	}
- 
- @ConfigurationProperties(prefix = "jdbc") 
-  public @Data class ConfigProperties { 
-    private String ip; 
-  }
 }
