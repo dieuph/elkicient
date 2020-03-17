@@ -49,7 +49,7 @@ services:
       context: applications
       dockerfile: Dockerfile
     environment:
-      - TEST_IP=10.124.85.75
+      - TEST_IP=8.8.8.8
     ports: 
       - "8082:8080"
       
