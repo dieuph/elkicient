@@ -1,5 +1,8 @@
 FROM gradle:4.7.0-jdk8-alpine AS build
 WORKDIR /home/gradle/project
+ARG TEST_IP
+
+RUN echo ${TEST_IP}
 
 EXPOSE 8080
 
@@ -18,4 +21,4 @@ WORKDIR /home/gradle/project/
 
 COPY --from=0 /home/gradle/project/build/libs/project-0.0.1-SNAPSHOT.jar .
 
-ENTRYPOINT java -jar project-0.0.1-SNAPSHOT.jar
+ENTRYPOINT java -Djdbc.ip=${TEST_IP} -jar project-0.0.1-SNAPSHOT.jar

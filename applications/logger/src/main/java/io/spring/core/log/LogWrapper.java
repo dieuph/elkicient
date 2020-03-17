@@ -9,7 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.net.*;
 
 @NoArgsConstructor
@@ -19,12 +20,14 @@ import java.net.*;
 public class LogWrapper {
 	private String id;
 	private Level level;
-  private String hostName;
 	private LogContext context;
 	private String message;
 	private Object[] parameters;
 	private Throwable throwable;
 	private Logger logger;
+ 
+  @Value("${jdbc.ip}")
+  private String ip;
 
 	private static LogContext context(String context) {
 		return LogContext.getContext(context.toUpperCase());
@@ -40,7 +43,6 @@ public class LogWrapper {
 		try {
       wrapper.setId(UUID.randomUUID().toString());
 			wrapper.setLevel(level(request.getLevel()));
-      wrapper.setHostName(request.getHostName());
 			wrapper.setMessage(request.getMessage());
 			
 			if (null != request.getThrowable()) {
@@ -58,9 +60,14 @@ public class LogWrapper {
 	
 	public void log() {
 		if (null != throwable) {
-			logger.log(level, hostName + " " + message + throwable.getCause());
+			logger.log(level, this.getIp() + " " + message + throwable.getCause());
 		} else {
-			logger.log(level, hostName + " " + message);
+			logger.log(level, this.getIp() + " " + message);
 		}
 	}
+ 
+ @ConfigurationProperties(prefix = "jdbc") 
+  public @Data class ConfigProperties { 
+    private String ip; 
+  }
 }

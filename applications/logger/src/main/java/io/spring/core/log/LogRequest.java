@@ -11,9 +11,6 @@ import lombok.Data;
 public class LogRequest {
 	@NotBlank(message = "can't be empty")
 	private String level;
- 
-  @NotBlank(message = "can't be empty")
-	private String hostName;
 
 	private String throwable;
 

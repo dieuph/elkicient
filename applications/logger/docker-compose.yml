@@ -2,32 +2,37 @@ version: '3'
 services:
   filebeat_1:
     volumes:
-      - /user/filebeat_1/logs:/user/logs/
+      - /usr/filebeat_1/logs:/usr/logs/
     build:
       context: ./filebeat/
       dockerfile: Dockerfile
-    
+      
   elkicient_app_1:
     volumes:
-      - /user/filebeat_1/logs:/home/gradle/project/logs
+      - /usr/filebeat_1/logs:/home/gradle/project/logs
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - TEST_IP=85.214.125.128
     ports: 
-      - "8081:8080"    
+      - "8081:8080"
   
   filebeat_2:
     volumes:
-      - /user/filebeat_2/logs:/user/logs
+      - /usr/filebeat_2/logs:/usr/logs
     build:
       context: ./filebeat/
       dockerfile: Dockerfile
       
   elkicient_app_2:
     volumes:
-      - /user/filebeat_2/logs:/home/gradle/project/logs
+      - /usr/filebeat_2/logs:/home/gradle/project/logs
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - TEST_IP=10.122.125.123
     ports: 
       - "8082:8080"
+    
