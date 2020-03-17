@@ -1,3 +1,0 @@
-sudo apt-get update
-sudo apt-cache policy filebeat
-sudo apt-get install filebeat=6.5.2

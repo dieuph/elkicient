@@ -1,6 +1,42 @@
 version: '3'
 
 services:
+  filebeat_1:
+    volumes:
+      - /usr/filebeat_1/logs:/usr/logs/
+    build:
+      context: filebeat
+      dockerfile: Dockerfile
+      
+  elkicient_app_1:
+    volumes:
+      - /usr/filebeat_1/logs:/home/gradle/project/logs
+    build:
+      context: applications
+      dockerfile: Dockerfile
+    environment:
+      - TEST_IP=85.214.125.128
+    ports: 
+      - "8081:8080"
+  
+  filebeat_2:
+    volumes:
+      - /usr/filebeat_2/logs:/usr/logs
+    build:
+      context: filebeat
+      dockerfile: Dockerfile
+      
+  elkicient_app_2:
+    volumes:
+      - /usr/filebeat_2/logs:/home/gradle/project/logs
+    build:
+      context: applications
+      dockerfile: Dockerfile
+    environment:
+      - TEST_IP=10.122.125.123
+    ports: 
+      - "8082:8080"
+      
   logstash:
     hostname: logstash
     image: ws/logstash:6.5.2
@@ -17,6 +53,7 @@ services:
       - 5044:5044
     links:
       - elasticsearch
+      
   elasticsearch:
     container_name: elasticsearch
     hostname: elasticsearch
@@ -37,6 +74,7 @@ services:
       - 9200:9200
     links:
       - kibana
+      
   kibana:
     hostname: kibana
     image: kibana:6.5.2

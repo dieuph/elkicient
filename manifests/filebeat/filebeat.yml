@@ -1,9 +1,12 @@
 filebeat.inputs:
 - type: log
   paths:
-    - /usr/logs/elkicient.log
+    - /usr/logs/*
+    
 logging.metrics.enabled: false
+
 tail_files: true
+      
 # setup filebeat to send output to logstash
 output.logstash:
-  hosts: ["172.25.0.2:5044"]
+  hosts: ["http://logstash:5044"]
